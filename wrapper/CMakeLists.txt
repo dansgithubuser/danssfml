@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.2.3 FATAL_ERROR)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12)
+include("${CMAKE_CURRENT_SOURCE_DIR}/../CMakeInclude.txt")
+add_library(DansSfmlWrapper MODULE "${CMAKE_CURRENT_SOURCE_DIR}/wrapper.cpp")
+set_property(TARGET DansSfmlWrapper PROPERTY CXX_STANDARD 11)
+target_link_libraries(DansSfmlWrapper sfml-system sfml-window sfml-graphics)
