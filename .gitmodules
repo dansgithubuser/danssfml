@@ -1,3 +1,6 @@
 [submodule "deps/SFML"]
 	path = deps/SFML
 	url = https://github.com/SFML/SFML
+[submodule "deps/obvious"]
+	path = deps/obvious
+	url = https://github.com/dansgithubuser/obvious

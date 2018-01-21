@@ -2,16 +2,14 @@ import ctypes
 import glob
 import os
 import pprint
+import sys
 
-attempted_paths=[]
-def load_lib():
-	for base in ['.', os.path.join('..', 'built')]:
-		attempted_paths.append(os.path.realpath(base))
-		for path in glob.glob(os.path.join(base, '*DansSfmlWrapper.*')):
-			try: return ctypes.CDLL(path)
-			except: pass
-	else: raise Exception("couldn't load lib, attempted paths:\n{}".format(pprint.pformat(attempted_paths)))
-sfml=load_lib()
+HOME=os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(HOME, '..', 'deps', 'obvious'))
+
+import obvious
+
+sfml=obvious.load_lib('DansSfmlWrapper', ['.', os.path.join('..', 'built')])
 assert sfml.init(640, 480, "Dan's MIDI Editor")==0
 sfml.poll_event.restype=ctypes.c_char_p
 
