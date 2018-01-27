@@ -10,7 +10,7 @@ sys.path.append(os.path.join(HOME, '..', 'deps', 'obvious'))
 import obvious
 
 sfml=obvious.load_lib('DansSfmlWrapper', ['.', os.path.join('..', 'built')])
-assert sfml.init(640, 480, "Dan's MIDI Editor")==0
+def init(width=640, height=480, title=''): assert sfml.init(width, height, title)==0
 sfml.poll_event.restype=ctypes.c_char_p
 
 def poll_event(): return sfml.poll_event().decode()
