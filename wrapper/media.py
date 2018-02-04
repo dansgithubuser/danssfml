@@ -11,7 +11,13 @@ import obvious
 
 sfml=obvious.load_lib('DansSfmlWrapper', ['.', os.path.join('..', 'built')])
 def init(width=640, height=480, title=''): assert sfml.init(width, height, title)==0
-sfml.poll_event.restype=ctypes.c_char_p
+
+def set_sfml(new_sfml):
+	global sfml
+	sfml=new_sfml
+	sfml.poll_event.restype=ctypes.c_char_p
+
+set_sfml(sfml)
 
 def poll_event(): return sfml.poll_event().decode()
 def set_vertices_type(s): sfml.set_vertices_type(s)
