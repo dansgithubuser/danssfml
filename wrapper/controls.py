@@ -24,7 +24,7 @@ class AbstractControls:
 		control_name='control_{}'.format(self.control_number)
 		if DEBUG: print('control_{}: {}'.format(control_name, body))
 		f='\n'.join([
-			'def {0}(self, regex=r"{1}", order={2}, mode="{3}"):',
+			'def {0}(self, match, regex=r"{1}", order={2}, mode="{3}"):',
 			'	"""{5}"""',
 			'	{4}',
 			'self.{0}=types.MethodType({0}, self)',
@@ -88,8 +88,9 @@ class AbstractControls:
 			a=getattr(self, i)
 			if not callable(a): continue
 			if any([j not in inspect.getargspec(a).args for j in ['regex', 'order', 'mode']]): continue
-			try: params=inspect.getcallargs(a)
-			except: continue
+			try: params=inspect.getcallargs(a, None)
+			except Exception as e:
+				continue
 			self.controls[params['order']][params['mode']].append((params['regex'], i))
 		self.controls=[v for k, v in sorted(self.controls.items(), key=lambda k: k)]
 		if DEBUG:
@@ -109,7 +110,7 @@ class AbstractControls:
 						if DEBUG: print('{} regex◀{}▶ sequence◀{}▶ {} {}'.format(word, regex, s, method, 'MATCH' if m else ''))
 						if m:
 							method=getattr(self, method)
-							try: method()
+							try: method(m)
 							except:
 								print('-'*40)
 								print(method.__doc__)
