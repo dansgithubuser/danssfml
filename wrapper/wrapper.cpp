@@ -6,19 +6,19 @@
 #include <map>
 #include <sstream>
 
-int bossInit(int width, int height, const char* title){
-	gBoss=new Boss;
-	if(!gBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
-	gBoss->window.create(sf::VideoMode(width, height), title);
-	gBoss->window.setKeyRepeatEnabled(false);
-	gBoss->va.setPrimitiveType(sf::PrimitiveType::Triangles);
+int dansSfmlWrapperBossInit(int width, int height, const char* title){
+	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
+	if(!gDansSfmlWrapperBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
+	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title);
+	gDansSfmlWrapperBoss->window.setKeyRepeatEnabled(false);
+	gDansSfmlWrapperBoss->va.setPrimitiveType(sf::PrimitiveType::Triangles);
 	return 0;
 }
 
-const char* bossPollEvent(){
+const char* dansSfmlWrapperBossPollEvent(){
 	std::stringstream ss;
 	sf::Event event;
-	if(gBoss->window.pollEvent(event)){
+	if(gDansSfmlWrapperBoss->window.pollEvent(event)){
 		switch(event.type){
 			case sf::Event::KeyPressed:
 			case sf::Event::KeyReleased:
@@ -42,57 +42,61 @@ const char* bossPollEvent(){
 				ss<<"q";
 				break;
 			case sf::Event::Resized:
-				gBoss->window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
+				gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
 				break;
 			default: break;
 		}
 	}
-	gBoss->result=ss.str();
-	return gBoss->result.c_str();
+	gDansSfmlWrapperBoss->result=ss.str();
+	return gDansSfmlWrapperBoss->result.c_str();
 }
 
-Boss* gBoss=nullptr;
+DansSfmlWrapperBoss* gDansSfmlWrapperBoss=nullptr;
 
 extern "C" {
-	int init(int width, int height, const char* title){
-		if(gBoss) delete gBoss;
-		return bossInit(width, height, title);
+	int dans_sfml_wrapper_init(int width, int height, const char* title){
+		if(gDansSfmlWrapperBoss) delete gDansSfmlWrapperBoss;
+		return dansSfmlWrapperBossInit(width, height, title);
 	}
 
-	const char* poll_event(){ return bossPollEvent(); }
+	const char* dans_sfml_wrapper_poll_event(){ return dansSfmlWrapperBossPollEvent(); }
 
-	void set_vertices_type(const char* s){
+	void dans_sfml_wrapper_set_vertices_type(const char* s){
 		std::map<std::string, sf::PrimitiveType> m={
 			{"triangles", sf::PrimitiveType::Triangles},
 			{"lines"    , sf::PrimitiveType::Lines},
 		};
-		if(m.count(s)) gBoss->va.setPrimitiveType(m.at(s));
+		if(m.count(s)) gDansSfmlWrapperBoss->va.setPrimitiveType(m.at(s));
 	}
 
-	void vertex(int x, int y, int r, int g, int b, int a){
-		gBoss->va.append(sf::Vertex(
+	void dans_sfml_wrapper_vertex(int x, int y, int r, int g, int b, int a){
+		gDansSfmlWrapperBoss->va.append(sf::Vertex(
 			sf::Vector2f((float)x, (float)y),
 			sf::Color(r, g, b, a)
 		));
 	}
 
-	void draw_vertices(){
-		gBoss->window.draw(gBoss->va);
-		gBoss->va.clear();
+	void dans_sfml_wrapper_draw_vertices(){
+		gDansSfmlWrapperBoss->window.draw(gDansSfmlWrapperBoss->va);
+		gDansSfmlWrapperBoss->va.clear();
 	}
 
-	void text(int x, int y, int h, const char* s, int r, int g, int b, int a){
-		sf::Text t(s, gBoss->font, h);
+	void dans_sfml_wrapper_text_draw(int x, int y, int h, const char* s, int r, int g, int b, int a){
+		sf::Text t(s, gDansSfmlWrapperBoss->font, h);
 		t.setFillColor(sf::Color(r, g, b, a));
 		t.setPosition((float)x, (float)y);
-		gBoss->window.draw(t);
+		gDansSfmlWrapperBoss->window.draw(t);
 	}
 
-	int width(){ return gBoss->window.getSize().x; }
+	float dans_sfml_wrapper_text_width(int h, const char* s){
+		return sf::Text(s, gDansSfmlWrapperBoss->font, h).getLocalBounds().width;
+	}
 
-	int height(){ return gBoss->window.getSize().y; }
+	int dans_sfml_wrapper_width(){ return gDansSfmlWrapperBoss->window.getSize().x; }
 
-	void display(){
-		gBoss->window.display();
+	int dans_sfml_wrapper_height(){ return gDansSfmlWrapperBoss->window.getSize().y; }
+
+	void dans_sfml_wrapper_display(){
+		gDansSfmlWrapperBoss->window.display();
 	}
 }

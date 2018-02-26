@@ -10,22 +10,22 @@ sys.path.append(os.path.join(HOME, '..', 'deps', 'obvious'))
 import obvious
 
 sfml=obvious.load_lib('DansSfmlWrapper', ['.', os.path.join('..', 'built')])
-def init(width=640, height=480, title=''): assert sfml.init(width, height, title)==0
+def init(width=640, height=480, title=''): assert sfml.dans_sfml_wrapper_init(width, height, title)==0
 
 def set_sfml(new_sfml):
 	global sfml
 	sfml=new_sfml
-	sfml.poll_event.restype=ctypes.c_char_p
+	sfml.dans_sfml_wrapper_poll_event.restype=ctypes.c_char_p
 
 set_sfml(sfml)
 
-def poll_event(): return sfml.poll_event().decode()
-def set_vertices_type(s): sfml.set_vertices_type(s)
-def vertex(x, y, r, g, b, a): sfml.vertex(x, y, r, g, b, a)
-def draw_vertices(): sfml.draw_vertices()
-def width(): return sfml.width()
-def height(): return sfml.height()
-def display(): sfml.draw_vertices(); sfml.display()
+def poll_event(): return sfml.dans_sfml_wrapper_poll_event().decode()
+def set_vertices_type(s): sfml.dans_sfml_wrapper_set_vertices_type(s)
+def vertex(x, y, r, g, b, a): sfml.dans_sfml_wrapper_vertex(x, y, r, g, b, a)
+def draw_vertices(): sfml.dans_sfml_wrapper_draw_vertices()
+def width(): return sfml.dans_sfml_wrapper_width()
+def height(): return sfml.dans_sfml_wrapper_height()
+def display(): sfml.dans_sfml_wrapper_draw_vertices(); sfml.dans_sfml_wrapper_display()
 
 def _xi_yi(**kwargs):
 	if 'bounds' in kwargs:
@@ -75,7 +75,7 @@ def text(s, **kwargs):
 	kwargs['w' ]=0
 	xi, yi, xf, yf=_xi_yi(**kwargs)
 	r, g, b, a=_color(**kwargs)
-	sfml.text(xi, yi, yf-yi, s.encode(), r, g, b, a)
+	sfml.dans_sfml_wrapper_text_draw(xi, yi, yf-yi, s.encode(), r, g, b, a)
 
 def fill(**kwargs):
 	set_vertices_type('triangles')
