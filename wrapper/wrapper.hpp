@@ -1,3 +1,6 @@
+#ifndef WRAPPER_HPP_INCLUDED
+#define WRAPPER_HPP_INCLUDED
+
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -23,3 +26,5 @@ extern "C" {
 	int dans_sfml_wrapper_height();
 	void dans_sfml_wrapper_display();
 }
+
+#endif
