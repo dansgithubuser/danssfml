@@ -22,12 +22,13 @@ set_ffi_types(sfml.dans_sfml_wrapper_poll_event, str)
 set_ffi_types(sfml.dans_sfml_wrapper_set_vertices_type, None, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex, None, int, int, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_draw_vertices)
-set_ffi_types(sfml.dans_sfml_wrapper_text_draw, int, int, int, str, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_text_draw, None, int, int, int, str, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_text_width, ctypes.c_float, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_width, int)
 set_ffi_types(sfml.dans_sfml_wrapper_height, int)
 set_ffi_types(sfml.dans_sfml_wrapper_display)
-def init(width=640, height=480, title=''): assert sfml.dans_sfml_wrapper_init(width, height, title)==0
+def init(width=640, height=480, title=''):
+	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
 
 def set_sfml(new_sfml):
 	global sfml
@@ -37,7 +38,7 @@ def set_sfml(new_sfml):
 set_sfml(sfml)
 
 def poll_event(): return sfml.dans_sfml_wrapper_poll_event().decode()
-def set_vertices_type(s): sfml.dans_sfml_wrapper_set_vertices_type(s)
+def set_vertices_type(s): sfml.dans_sfml_wrapper_set_vertices_type(s.encode())
 def vertex(x, y, r, g, b, a): sfml.dans_sfml_wrapper_vertex(x, y, r, g, b, a)
 def draw_vertices(): sfml.dans_sfml_wrapper_draw_vertices()
 def width(): return sfml.dans_sfml_wrapper_width()
