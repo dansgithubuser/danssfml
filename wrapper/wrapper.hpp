@@ -10,6 +10,7 @@ struct DansSfmlWrapperBoss{
 	sf::Font font;
 	sf::VertexArray va;
 	std::string result;
+	bool customResize=false;
 };
 
 extern DansSfmlWrapperBoss* gDansSfmlWrapperBoss;
@@ -34,6 +35,7 @@ extern "C" {
 	float dans_sfml_wrapper_get_view_width();
 	float dans_sfml_wrapper_get_view_height();
 	void dans_sfml_wrapper_set_view(float x, float y, float w, float h);
+	void dans_sfml_wrapper_custom_resize(int enable);
 }
 
 #endif

@@ -38,6 +38,7 @@ set_ffi_types(sfml.dans_sfml_wrapper_get_view_y, float)
 set_ffi_types(sfml.dans_sfml_wrapper_get_view_width, float)
 set_ffi_types(sfml.dans_sfml_wrapper_get_view_height, float)
 set_ffi_types(sfml.dans_sfml_wrapper_set_view, None, float, float, float, float)
+set_ffi_types(sfml.dans_sfml_wrapper_custom_resize, None, int)
 def init(width=640, height=480, title=''):
 	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
 
@@ -62,6 +63,7 @@ def get_view(): return (
 	sfml.dans_sfml_wrapper_get_view_height(),
 )
 def set_view(x, y, w, h): sfml.dans_sfml_wrapper_set_view(x, y, w, h)
+def custom_resize(enable): sfml.dans_sfml_wrapper_custom_resize(1 if enable else 0)
 
 def _xi_yi(**kwargs):
 	if 'bounds' in kwargs:

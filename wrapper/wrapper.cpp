@@ -43,7 +43,10 @@ const char* dansSfmlWrapperBossPollEvent(){
 				ss<<"q";
 				break;
 			case sf::Event::Resized:
-				gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
+				if(gDansSfmlWrapperBoss->customResize)
+					ss<<"rw"<<event.size.width<<"h"<<event.size.height;
+				else
+					gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
 				break;
 			default: break;
 		}
@@ -140,5 +143,9 @@ extern "C" {
 
 	void dans_sfml_wrapper_set_view(float x, float y, float w, float h){
 		gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(x, y, w, h)));
+	}
+
+	void dans_sfml_wrapper_custom_resize(int enable){
+		gDansSfmlWrapperBoss->customResize=enable;
 	}
 }
