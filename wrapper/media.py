@@ -15,6 +15,7 @@ def set_ffi_types(ff, restype=None, *argtypes):
 		int: ctypes.c_int,
 		float: ctypes.c_float,
 		str: ctypes.c_char_p,
+		'void*': ctypes.c_void_p,
 	}
 	ff.restype=conversions.get(restype, restype)
 	ff.argtypes=[conversions.get(i, i) for i in argtypes]
@@ -23,6 +24,10 @@ set_ffi_types(sfml.dans_sfml_wrapper_poll_event, str)
 set_ffi_types(sfml.dans_sfml_wrapper_set_vertices_type, None, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex, None, float, float, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_draw_vertices)
+set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_construct, 'void*', int)
+set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_destruct, None, 'void*')
+set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_update, None, 'void*', int, float, float, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_draw, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_text_draw, None, float, float, int, str, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_text_width, float, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_width, int)
@@ -117,3 +122,16 @@ def line(**kwargs):
 def clear(**kwargs):
 	fill(x=0, y=0, w=width(), h=height(), color=_color(**kwargs))
 	draw_vertices()
+
+class VertexBuffer:
+	def __init__(self, count):
+		self.this=sfml.dans_sfml_wrapper_vertex_buffer_construct(count)
+
+	def __del__(self):
+		sfml.dans_sfml_wrapper_vertex_buffer_destruct(self.this)
+
+	def update(self, i, x, y, r, g, b, a):
+		sfml.dans_sfml_wrapper_vertex_buffer_update(self.this, i, x, y, r, g, b, a)
+
+	def draw(self):
+		sfml.dans_sfml_wrapper_vertex_buffer_draw(self.this)

@@ -5,6 +5,7 @@
 
 #include <map>
 #include <sstream>
+#include <stdexcept>
 
 int dansSfmlWrapperBossInit(int width, int height, const char* title){
 	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
@@ -79,6 +80,25 @@ extern "C" {
 	void dans_sfml_wrapper_draw_vertices(){
 		gDansSfmlWrapperBoss->window.draw(gDansSfmlWrapperBoss->va);
 		gDansSfmlWrapperBoss->va.clear();
+	}
+
+	void* dans_sfml_wrapper_vertex_buffer_construct(int size){
+		auto result=new sf::VertexBuffer(sf::Points, sf::VertexBuffer::Static);
+		if(!result->create(size)) throw std::runtime_error("couldn't create vertex buffer");
+		return result;
+	}
+
+	void dans_sfml_wrapper_vertex_buffer_destruct(sf::VertexBuffer* buffer){
+		delete buffer;
+	}
+
+	void dans_sfml_wrapper_vertex_buffer_update(sf::VertexBuffer* buffer, int i, float x, float y, int r, int g, int b, int a){
+		sf::Vertex v(sf::Vector2f(x, y), sf::Color(r, g, b, a));
+		buffer->update(&v, 1, i);
+	}
+
+	void dans_sfml_wrapper_vertex_buffer_draw(sf::VertexBuffer* buffer){
+		gDansSfmlWrapperBoss->window.draw(*buffer);
 	}
 
 	void dans_sfml_wrapper_text_draw(float x, float y, int h, const char* s, int r, int g, int b, int a){
