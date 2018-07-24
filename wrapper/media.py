@@ -13,6 +13,7 @@ sfml=obvious.load_lib('DansSfmlWrapper', ['.', os.path.join('..', 'built')])
 def set_ffi_types(ff, restype=None, *argtypes):
 	conversions={
 		int: ctypes.c_int,
+		float: ctypes.c_float,
 		str: ctypes.c_char_p,
 	}
 	ff.restype=conversions.get(restype, restype)
@@ -20,10 +21,10 @@ def set_ffi_types(ff, restype=None, *argtypes):
 set_ffi_types(sfml.dans_sfml_wrapper_init, int, int, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_poll_event, str)
 set_ffi_types(sfml.dans_sfml_wrapper_set_vertices_type, None, str)
-set_ffi_types(sfml.dans_sfml_wrapper_vertex, None, int, int, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_vertex, None, float, float, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_draw_vertices)
-set_ffi_types(sfml.dans_sfml_wrapper_text_draw, None, int, int, int, str, int, int, int, int)
-set_ffi_types(sfml.dans_sfml_wrapper_text_width, ctypes.c_float, int, str)
+set_ffi_types(sfml.dans_sfml_wrapper_text_draw, None, float, float, int, str, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_text_width, float, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_width, int)
 set_ffi_types(sfml.dans_sfml_wrapper_height, int)
 set_ffi_types(sfml.dans_sfml_wrapper_display)

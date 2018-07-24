@@ -69,9 +69,9 @@ extern "C" {
 		if(m.count(s)) gDansSfmlWrapperBoss->va.setPrimitiveType(m.at(s));
 	}
 
-	void dans_sfml_wrapper_vertex(int x, int y, int r, int g, int b, int a){
+	void dans_sfml_wrapper_vertex(float x, float y, int r, int g, int b, int a){
 		gDansSfmlWrapperBoss->va.append(sf::Vertex(
-			sf::Vector2f((float)x, (float)y),
+			sf::Vector2f(x, y),
 			sf::Color(r, g, b, a)
 		));
 	}
@@ -81,10 +81,10 @@ extern "C" {
 		gDansSfmlWrapperBoss->va.clear();
 	}
 
-	void dans_sfml_wrapper_text_draw(int x, int y, int h, const char* s, int r, int g, int b, int a){
+	void dans_sfml_wrapper_text_draw(float x, float y, int h, const char* s, int r, int g, int b, int a){
 		sf::Text t(s, gDansSfmlWrapperBoss->font, h);
 		t.setFillColor(sf::Color(r, g, b, a));
-		t.setPosition((float)x, (float)y);
+		t.setPosition(x, y);
 		gDansSfmlWrapperBoss->window.draw(t);
 	}
 
