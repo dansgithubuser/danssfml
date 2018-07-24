@@ -119,4 +119,26 @@ extern "C" {
 	void dans_sfml_wrapper_display(){
 		gDansSfmlWrapperBoss->window.display();
 	}
+
+	float dans_sfml_wrapper_get_view_x(){
+		const auto& view=gDansSfmlWrapperBoss->window.getView();
+		return view.getCenter().x-view.getSize().x/2;
+	}
+
+	float dans_sfml_wrapper_get_view_y(){
+		const auto& view=gDansSfmlWrapperBoss->window.getView();
+		return view.getCenter().y-view.getSize().y/2;
+	}
+
+	float dans_sfml_wrapper_get_view_width(){
+		return gDansSfmlWrapperBoss->window.getView().getSize().x;
+	}
+
+	float dans_sfml_wrapper_get_view_height(){
+		return gDansSfmlWrapperBoss->window.getView().getSize().y;
+	}
+
+	void dans_sfml_wrapper_set_view(float x, float y, float w, float h){
+		gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(x, y, w, h)));
+	}
 }

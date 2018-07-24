@@ -29,6 +29,11 @@ extern "C" {
 	int dans_sfml_wrapper_width();
 	int dans_sfml_wrapper_height();
 	void dans_sfml_wrapper_display();
+	float dans_sfml_wrapper_get_view_x();
+	float dans_sfml_wrapper_get_view_y();
+	float dans_sfml_wrapper_get_view_width();
+	float dans_sfml_wrapper_get_view_height();
+	void dans_sfml_wrapper_set_view(float x, float y, float w, float h);
 }
 
 #endif

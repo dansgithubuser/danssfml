@@ -33,6 +33,11 @@ set_ffi_types(sfml.dans_sfml_wrapper_text_width, float, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_width, int)
 set_ffi_types(sfml.dans_sfml_wrapper_height, int)
 set_ffi_types(sfml.dans_sfml_wrapper_display)
+set_ffi_types(sfml.dans_sfml_wrapper_get_view_x, float)
+set_ffi_types(sfml.dans_sfml_wrapper_get_view_y, float)
+set_ffi_types(sfml.dans_sfml_wrapper_get_view_width, float)
+set_ffi_types(sfml.dans_sfml_wrapper_get_view_height, float)
+set_ffi_types(sfml.dans_sfml_wrapper_set_view, None, float, float, float, float)
 def init(width=640, height=480, title=''):
 	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
 
@@ -50,6 +55,13 @@ def draw_vertices(): sfml.dans_sfml_wrapper_draw_vertices()
 def width(): return sfml.dans_sfml_wrapper_width()
 def height(): return sfml.dans_sfml_wrapper_height()
 def display(): sfml.dans_sfml_wrapper_draw_vertices(); sfml.dans_sfml_wrapper_display()
+def get_view(): return (
+	sfml.dans_sfml_wrapper_get_view_x(),
+	sfml.dans_sfml_wrapper_get_view_y(),
+	sfml.dans_sfml_wrapper_get_view_width(),
+	sfml.dans_sfml_wrapper_get_view_height(),
+)
+def set_view(x, y, w, h): sfml.dans_sfml_wrapper_set_view(x, y, w, h)
 
 def _xi_yi(**kwargs):
 	if 'bounds' in kwargs:
