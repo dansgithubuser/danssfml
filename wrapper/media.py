@@ -134,7 +134,8 @@ def line(**kwargs):
 	vertex(xf, yf, r, g, b, a)
 
 def clear(**kwargs):
-	fill(x=0, y=0, w=width(), h=height(), color=_color(**kwargs))
+	x, y, w, h=get_view()
+	fill(x=x, y=y, w=w, h=h, color=_color(**kwargs))
 	draw_vertices()
 
 class VertexBuffer:
