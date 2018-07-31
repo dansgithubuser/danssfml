@@ -113,7 +113,7 @@ def text(s, **kwargs):
 	kwargs['w' ]=0
 	xi, yi, xf, yf=_xi_yi(**kwargs)
 	r, g, b, a=_color(**kwargs)
-	sfml.dans_sfml_wrapper_text_draw(xi, yi, yf-yi, s.encode(), r, g, b, a)
+	sfml.dans_sfml_wrapper_text_draw(xi, yi, round(yf-yi+0.5), s.encode(), r, g, b, a)
 
 def fill(**kwargs):
 	set_vertices_type('triangles')
