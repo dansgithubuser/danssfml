@@ -6,7 +6,9 @@
 #include <string>
 
 struct DansSfmlWrapperBoss{
+	sf::RenderTarget* target;
 	sf::RenderWindow window;
+	sf::RenderTexture texture;
 	sf::Font font;
 	sf::VertexArray va;
 	std::string result;
@@ -36,6 +38,8 @@ extern "C" {
 	float dans_sfml_wrapper_get_view_height();
 	void dans_sfml_wrapper_set_view(float x, float y, float w, float h);
 	void dans_sfml_wrapper_custom_resize(int enable);
+	void dans_sfml_wrapper_capture_start();
+	void dans_sfml_wrapper_capture_finish(const char* fileName);
 }
 
 #endif

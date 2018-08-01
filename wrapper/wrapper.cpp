@@ -11,6 +11,7 @@ int dansSfmlWrapperBossInit(int width, int height, const char* title){
 	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
 	if(!gDansSfmlWrapperBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
 	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title);
+	gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	gDansSfmlWrapperBoss->window.setKeyRepeatEnabled(false);
 	gDansSfmlWrapperBoss->va.setPrimitiveType(sf::PrimitiveType::Triangles);
 	return 0;
@@ -46,7 +47,7 @@ const char* dansSfmlWrapperBossPollEvent(){
 				if(gDansSfmlWrapperBoss->customResize)
 					ss<<"rw"<<event.size.width<<"h"<<event.size.height;
 				else
-					gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
+					gDansSfmlWrapperBoss->target->setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
 				break;
 			default: break;
 		}
@@ -81,7 +82,7 @@ extern "C" {
 	}
 
 	void dans_sfml_wrapper_draw_vertices(){
-		gDansSfmlWrapperBoss->window.draw(gDansSfmlWrapperBoss->va);
+		gDansSfmlWrapperBoss->target->draw(gDansSfmlWrapperBoss->va);
 		gDansSfmlWrapperBoss->va.clear();
 	}
 
@@ -101,51 +102,68 @@ extern "C" {
 	}
 
 	void dans_sfml_wrapper_vertex_buffer_draw(sf::VertexBuffer* buffer){
-		gDansSfmlWrapperBoss->window.draw(*buffer);
+		gDansSfmlWrapperBoss->target->draw(*buffer);
 	}
 
 	void dans_sfml_wrapper_text_draw(float x, float y, int h, const char* s, int r, int g, int b, int a){
 		sf::Text t(s, gDansSfmlWrapperBoss->font, h);
 		t.setFillColor(sf::Color(r, g, b, a));
 		t.setPosition(x, y);
-		gDansSfmlWrapperBoss->window.draw(t);
+		gDansSfmlWrapperBoss->target->draw(t);
 	}
 
 	float dans_sfml_wrapper_text_width(int h, const char* s){
 		return sf::Text(s, gDansSfmlWrapperBoss->font, h).getLocalBounds().width;
 	}
 
-	int dans_sfml_wrapper_width(){ return gDansSfmlWrapperBoss->window.getSize().x; }
+	int dans_sfml_wrapper_width(){ return gDansSfmlWrapperBoss->target->getSize().x; }
 
-	int dans_sfml_wrapper_height(){ return gDansSfmlWrapperBoss->window.getSize().y; }
+	int dans_sfml_wrapper_height(){ return gDansSfmlWrapperBoss->target->getSize().y; }
 
 	void dans_sfml_wrapper_display(){
 		gDansSfmlWrapperBoss->window.display();
 	}
 
 	float dans_sfml_wrapper_get_view_x(){
-		const auto& view=gDansSfmlWrapperBoss->window.getView();
+		const auto& view=gDansSfmlWrapperBoss->target->getView();
 		return view.getCenter().x-view.getSize().x/2;
 	}
 
 	float dans_sfml_wrapper_get_view_y(){
-		const auto& view=gDansSfmlWrapperBoss->window.getView();
+		const auto& view=gDansSfmlWrapperBoss->target->getView();
 		return view.getCenter().y-view.getSize().y/2;
 	}
 
 	float dans_sfml_wrapper_get_view_width(){
-		return gDansSfmlWrapperBoss->window.getView().getSize().x;
+		return gDansSfmlWrapperBoss->target->getView().getSize().x;
 	}
 
 	float dans_sfml_wrapper_get_view_height(){
-		return gDansSfmlWrapperBoss->window.getView().getSize().y;
+		return gDansSfmlWrapperBoss->target->getView().getSize().y;
 	}
 
 	void dans_sfml_wrapper_set_view(float x, float y, float w, float h){
-		gDansSfmlWrapperBoss->window.setView(sf::View(sf::FloatRect(x, y, w, h)));
+		gDansSfmlWrapperBoss->target->setView(sf::View(sf::FloatRect(x, y, w, h)));
 	}
 
 	void dans_sfml_wrapper_custom_resize(int enable){
 		gDansSfmlWrapperBoss->customResize=enable;
+	}
+
+	void dans_sfml_wrapper_capture_start(){
+		gDansSfmlWrapperBoss->texture.create(
+			dans_sfml_wrapper_width(),
+			dans_sfml_wrapper_height()
+		);
+		auto view=gDansSfmlWrapperBoss->window.getView();
+		view.setSize(view.getSize().x, -view.getSize().y);
+		gDansSfmlWrapperBoss->texture.setView(view);
+		gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->texture;
+	}
+
+	void dans_sfml_wrapper_capture_finish(const char* fileName){
+		if(gDansSfmlWrapperBoss->target!=&gDansSfmlWrapperBoss->texture) return;
+		gDansSfmlWrapperBoss->texture.getTexture().copyToImage().saveToFile(fileName);
+		gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	}
 }
