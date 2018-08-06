@@ -1,0 +1,5 @@
+built
+build
+dist
+*.egg-info
+*DansSfmlWrapper.*

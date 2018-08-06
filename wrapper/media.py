@@ -9,7 +9,12 @@ sys.path.append(os.path.join(HOME, '..', 'deps', 'obvious'))
 
 import obvious
 
-sfml=obvious.load_lib('DansSfmlWrapper', ['.', 'built', os.path.join('..', 'built')])
+sfml=obvious.load_lib('DansSfmlWrapper', [
+	'.',
+	'built',
+	os.path.join('..', 'built'),
+	HOME,
+])
 def set_ffi_types(ff, restype=None, *argtypes):
 	conversions={
 		int: ctypes.c_int,
