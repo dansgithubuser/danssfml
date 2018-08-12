@@ -2,6 +2,7 @@
 
 #include <courierCode.hpp>
 #include <keys.hpp>
+#include <vectorText.hpp>
 
 #include <map>
 #include <sstream>
@@ -165,5 +166,14 @@ extern "C" {
 		if(gDansSfmlWrapperBoss->target!=&gDansSfmlWrapperBoss->texture) return;
 		gDansSfmlWrapperBoss->texture.getTexture().copyToImage().saveToFile(fileName);
 		gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
+	}
+
+	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a){
+		vectorText(
+			s,
+			x, y, h,
+			r, g, b, a,
+			gDansSfmlWrapperBoss->va
+		);
 	}
 }

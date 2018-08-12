@@ -46,6 +46,7 @@ set_ffi_types(sfml.dans_sfml_wrapper_set_view, None, float, float, float, float)
 set_ffi_types(sfml.dans_sfml_wrapper_custom_resize, None, int)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_start, None)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_finish, None, str)
+set_ffi_types(sfml.dans_sfml_wrapper_vector_text, None, float, float, float, str, int, int, int, int)
 def init(width=640, height=480, title=''):
 	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
 
@@ -160,3 +161,12 @@ class VertexBuffer:
 
 def capture_start(): sfml.dans_sfml_wrapper_capture_start()
 def capture_finish(file_name): sfml.dans_sfml_wrapper_capture_finish(file_name.encode())
+
+def vector_text(s, **kwargs):
+	kwargs['xf']=0
+	kwargs['w' ]=0
+	xi, yi, xf, yf=_xi_yi(**kwargs)
+	r, g, b, a=_color(**kwargs)
+	draw_vertices()
+	sfml.dans_sfml_wrapper_vector_text(xi, yi, yf-yi, s.encode(), r, g, b, a)
+	draw_vertices()

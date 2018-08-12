@@ -40,6 +40,7 @@ extern "C" {
 	void dans_sfml_wrapper_custom_resize(int enable);
 	void dans_sfml_wrapper_capture_start();
 	void dans_sfml_wrapper_capture_finish(const char* fileName);
+	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a);
 }
 
 #endif
