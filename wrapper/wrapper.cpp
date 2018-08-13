@@ -67,7 +67,7 @@ extern "C" {
 
 	const char* dans_sfml_wrapper_poll_event(){ return dansSfmlWrapperBossPollEvent(); }
 
-	void dans_sfml_wrapper_set_vertices_type(const char* s){
+	void dans_sfml_wrapper_vertices_set_type(const char* s){
 		std::map<std::string, sf::PrimitiveType> m={
 			{"triangles", sf::PrimitiveType::Triangles},
 			{"lines"    , sf::PrimitiveType::Lines},
@@ -75,14 +75,14 @@ extern "C" {
 		if(m.count(s)) gDansSfmlWrapperBoss->va.setPrimitiveType(m.at(s));
 	}
 
-	void dans_sfml_wrapper_vertex(float x, float y, int r, int g, int b, int a){
+	void dans_sfml_wrapper_vertices_add(float x, float y, int r, int g, int b, int a){
 		gDansSfmlWrapperBoss->va.append(sf::Vertex(
 			sf::Vector2f(x, y),
 			sf::Color(r, g, b, a)
 		));
 	}
 
-	void dans_sfml_wrapper_draw_vertices(){
+	void dans_sfml_wrapper_vertices_draw(){
 		gDansSfmlWrapperBoss->target->draw(gDansSfmlWrapperBoss->va);
 		gDansSfmlWrapperBoss->va.clear();
 	}
@@ -125,25 +125,25 @@ extern "C" {
 		gDansSfmlWrapperBoss->window.display();
 	}
 
-	float dans_sfml_wrapper_get_view_x(){
+	float dans_sfml_wrapper_view_get_x(){
 		const auto& view=gDansSfmlWrapperBoss->target->getView();
 		return view.getCenter().x-view.getSize().x/2;
 	}
 
-	float dans_sfml_wrapper_get_view_y(){
+	float dans_sfml_wrapper_view_get_y(){
 		const auto& view=gDansSfmlWrapperBoss->target->getView();
 		return view.getCenter().y-view.getSize().y/2;
 	}
 
-	float dans_sfml_wrapper_get_view_width(){
+	float dans_sfml_wrapper_view_get_width(){
 		return gDansSfmlWrapperBoss->target->getView().getSize().x;
 	}
 
-	float dans_sfml_wrapper_get_view_height(){
+	float dans_sfml_wrapper_view_get_height(){
 		return gDansSfmlWrapperBoss->target->getView().getSize().y;
 	}
 
-	void dans_sfml_wrapper_set_view(float x, float y, float w, float h){
+	void dans_sfml_wrapper_view_set(float x, float y, float w, float h){
 		gDansSfmlWrapperBoss->target->setView(sf::View(sf::FloatRect(x, y, w, h)));
 	}
 

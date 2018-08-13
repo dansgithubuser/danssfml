@@ -26,9 +26,9 @@ def set_ffi_types(ff, restype=None, *argtypes):
 	ff.argtypes=[conversions.get(i, i) for i in argtypes]
 set_ffi_types(sfml.dans_sfml_wrapper_init, int, int, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_poll_event, str)
-set_ffi_types(sfml.dans_sfml_wrapper_set_vertices_type, None, str)
-set_ffi_types(sfml.dans_sfml_wrapper_vertex, None, float, float, int, int, int, int)
-set_ffi_types(sfml.dans_sfml_wrapper_draw_vertices)
+set_ffi_types(sfml.dans_sfml_wrapper_vertices_set_type, None, str)
+set_ffi_types(sfml.dans_sfml_wrapper_vertices_add, None, float, float, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_vertices_draw)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_construct, 'void*', int)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_destruct, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_update, None, 'void*', int, float, float, int, int, int, int)
@@ -38,11 +38,11 @@ set_ffi_types(sfml.dans_sfml_wrapper_text_width, float, int, str)
 set_ffi_types(sfml.dans_sfml_wrapper_width, int)
 set_ffi_types(sfml.dans_sfml_wrapper_height, int)
 set_ffi_types(sfml.dans_sfml_wrapper_display)
-set_ffi_types(sfml.dans_sfml_wrapper_get_view_x, float)
-set_ffi_types(sfml.dans_sfml_wrapper_get_view_y, float)
-set_ffi_types(sfml.dans_sfml_wrapper_get_view_width, float)
-set_ffi_types(sfml.dans_sfml_wrapper_get_view_height, float)
-set_ffi_types(sfml.dans_sfml_wrapper_set_view, None, float, float, float, float)
+set_ffi_types(sfml.dans_sfml_wrapper_view_get_x, float)
+set_ffi_types(sfml.dans_sfml_wrapper_view_get_y, float)
+set_ffi_types(sfml.dans_sfml_wrapper_view_get_width, float)
+set_ffi_types(sfml.dans_sfml_wrapper_view_get_height, float)
+set_ffi_types(sfml.dans_sfml_wrapper_view_set, None, float, float, float, float)
 set_ffi_types(sfml.dans_sfml_wrapper_custom_resize, None, int)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_start, None)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_finish, None, str)
@@ -58,19 +58,19 @@ def set_sfml(new_sfml):
 set_sfml(sfml)
 
 def poll_event(): return sfml.dans_sfml_wrapper_poll_event().decode()
-def set_vertices_type(s): sfml.dans_sfml_wrapper_set_vertices_type(s.encode())
-def vertex(x, y, r, g, b, a): sfml.dans_sfml_wrapper_vertex(x, y, r, g, b, a)
-def draw_vertices(): sfml.dans_sfml_wrapper_draw_vertices()
+def vertices_set_type(s): sfml.dans_sfml_wrapper_vertices_set_type(s.encode())
+def vertices_add(x, y, r, g, b, a): sfml.dans_sfml_wrapper_vertices_add(x, y, r, g, b, a)
+def vertices_draw(): sfml.dans_sfml_wrapper_vertices_draw()
 def width(): return sfml.dans_sfml_wrapper_width()
 def height(): return sfml.dans_sfml_wrapper_height()
-def display(): sfml.dans_sfml_wrapper_draw_vertices(); sfml.dans_sfml_wrapper_display()
-def get_view(): return (
-	sfml.dans_sfml_wrapper_get_view_x(),
-	sfml.dans_sfml_wrapper_get_view_y(),
-	sfml.dans_sfml_wrapper_get_view_width(),
-	sfml.dans_sfml_wrapper_get_view_height(),
+def display(): sfml.dans_sfml_wrapper_vertices_draw(); sfml.dans_sfml_wrapper_display()
+def view_get(): return (
+	sfml.dans_sfml_wrapper_view_get_x(),
+	sfml.dans_sfml_wrapper_view_get_y(),
+	sfml.dans_sfml_wrapper_view_get_width(),
+	sfml.dans_sfml_wrapper_view_get_height(),
 )
-def set_view(x, y, w, h): sfml.dans_sfml_wrapper_set_view(x, y, w, h)
+def view_set(x, y, w, h): sfml.dans_sfml_wrapper_view_set(x, y, w, h)
 def custom_resize(enable): sfml.dans_sfml_wrapper_custom_resize(1 if enable else 0)
 
 def _xi_yi(**kwargs):
@@ -124,27 +124,27 @@ def text(s, **kwargs):
 	sfml.dans_sfml_wrapper_text_draw(xi, yi, round(yf-yi+0.5), s.encode(), r, g, b, a)
 
 def fill(**kwargs):
-	set_vertices_type('triangles')
+	vertices_set_type('triangles')
 	xi, yi, xf, yf=_xi_yi(**kwargs)
 	r, g, b, a=_color(**kwargs)
-	vertex(xi, yi, r, g, b, a)
-	vertex(xf, yi, r, g, b, a)
-	vertex(xi, yf, r, g, b, a)
-	vertex(xi, yf, r, g, b, a)
-	vertex(xf, yi, r, g, b, a)
-	vertex(xf, yf, r, g, b, a)
+	vertices_add(xi, yi, r, g, b, a)
+	vertices_add(xf, yi, r, g, b, a)
+	vertices_add(xi, yf, r, g, b, a)
+	vertices_add(xi, yf, r, g, b, a)
+	vertices_add(xf, yi, r, g, b, a)
+	vertices_add(xf, yf, r, g, b, a)
 
 def line(**kwargs):
-	set_vertices_type('lines')
+	vertices_set_type('lines')
 	xi, yi, xf, yf=_xi_yi(**kwargs)
 	r, g, b, a=_color(**kwargs)
-	vertex(xi, yi, r, g, b, a)
-	vertex(xf, yf, r, g, b, a)
+	vertices_add(xi, yi, r, g, b, a)
+	vertices_add(xf, yf, r, g, b, a)
 
 def clear(**kwargs):
-	x, y, w, h=get_view()
+	x, y, w, h=view_get()
 	fill(x=x, y=y, w=w, h=h, color=_color(**kwargs))
-	draw_vertices()
+	vertices_draw()
 
 class VertexBuffer:
 	def __init__(self, count):
@@ -167,6 +167,6 @@ def vector_text(s, **kwargs):
 	kwargs['w' ]=0
 	xi, yi, xf, yf=_xi_yi(**kwargs)
 	r, g, b, a=_color(**kwargs)
-	draw_vertices()
+	vertices_draw()
 	sfml.dans_sfml_wrapper_vector_text(xi, yi, yf-yi, s.encode(), r, g, b, a)
-	draw_vertices()
+	vertices_draw()
