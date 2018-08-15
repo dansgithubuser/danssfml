@@ -47,6 +47,13 @@ set_ffi_types(sfml.dans_sfml_wrapper_custom_resize, None, int)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_start, None)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_finish, None, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vector_text, None, float, float, float, str, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_render_texture_construct, 'void*', int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_render_texture_destruct, None, 'void*')
+set_ffi_types(sfml.dans_sfml_wrapper_render_texture_draw, None, 'void*', float, float)
+set_ffi_types(sfml.dans_sfml_wrapper_render_texture_as_target, 'void*', 'void*')
+set_ffi_types(sfml.dans_sfml_wrapper_render_texture_display, None, 'void*')
+set_ffi_types(sfml.dans_sfml_wrapper_target_set, None, 'void*')
+set_ffi_types(sfml.dans_sfml_wrapper_target_reset)
 def init(width=640, height=480, title=''):
 	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
 
@@ -170,3 +177,23 @@ def vector_text(s, **kwargs):
 	vertices_draw()
 	sfml.dans_sfml_wrapper_vector_text(xi, yi, yf-yi, s.encode(), r, g, b, a)
 	vertices_draw()
+
+class RenderTexture:
+	def __init__(self, w, h):
+		self._=sfml.dans_sfml_wrapper_render_texture_construct(w, h)
+
+	def __del__(self):
+		sfml.dans_sfml_wrapper_render_texture_destruct(self._)
+
+	def draw(self, x, y):
+		if not self.displayed:
+			sfml.dans_sfml_wrapper_render_texture_display(self._)
+			self.displayed=True
+		sfml.dans_sfml_wrapper_render_texture_draw(self._, x, y)
+
+	def target(self):
+		self.displayed=False
+		return sfml.dans_sfml_wrapper_render_texture_as_target(self._)
+
+def target_set(targetable): sfml.dans_sfml_wrapper_target_set(targetable.target())
+def target_reset(): sfml.dans_sfml_wrapper_target_reset()

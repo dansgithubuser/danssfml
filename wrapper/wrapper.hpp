@@ -23,7 +23,7 @@ extern "C" {
 	void dans_sfml_wrapper_vertices_set_type(const char* s);
 	void dans_sfml_wrapper_vertices_add(float x, float y, int r, int g, int b, int a);
 	void dans_sfml_wrapper_vertices_draw();
-	void* dans_sfml_wrapper_vertex_buffer_construct(int size);
+	sf::VertexBuffer* dans_sfml_wrapper_vertex_buffer_construct(int size);
 	void dans_sfml_wrapper_vertex_buffer_destruct(sf::VertexBuffer* buffer);
 	void dans_sfml_wrapper_vertex_buffer_update(sf::VertexBuffer* buffer, int i, float x, float y, int r, int g, int b, int a);
 	void dans_sfml_wrapper_vertex_buffer_draw(sf::VertexBuffer* buffer);
@@ -41,6 +41,13 @@ extern "C" {
 	void dans_sfml_wrapper_capture_start();
 	void dans_sfml_wrapper_capture_finish(const char* fileName);
 	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a);
+	sf::RenderTexture* dans_sfml_wrapper_render_texture_construct(int w, int h);
+	void dans_sfml_wrapper_render_texture_destruct(sf::RenderTexture* texture);
+	void dans_sfml_wrapper_render_texture_draw(sf::RenderTexture* texture, float x, float y);
+	sf::RenderTarget* dans_sfml_wrapper_render_texture_as_target(sf::RenderTexture* texture);
+	void dans_sfml_wrapper_render_texture_display(sf::RenderTexture* texture);
+	void dans_sfml_wrapper_target_set(sf::RenderTarget* target);
+	void dans_sfml_wrapper_target_reset();
 }
 
 #endif

@@ -87,7 +87,7 @@ extern "C" {
 		gDansSfmlWrapperBoss->va.clear();
 	}
 
-	void* dans_sfml_wrapper_vertex_buffer_construct(int size){
+	sf::VertexBuffer* dans_sfml_wrapper_vertex_buffer_construct(int size){
 		auto result=new sf::VertexBuffer(sf::Points, sf::VertexBuffer::Static);
 		if(!result->create(size)) throw std::runtime_error("couldn't create vertex buffer");
 		return result;
@@ -175,5 +175,37 @@ extern "C" {
 			r, g, b, a,
 			gDansSfmlWrapperBoss->va
 		);
+	}
+
+	sf::RenderTexture* dans_sfml_wrapper_render_texture_construct(int w, int h){
+		auto result=new sf::RenderTexture;
+		result->create((unsigned)w, (unsigned)h);
+		return result;
+	}
+
+	void dans_sfml_wrapper_render_texture_destruct(sf::RenderTexture* texture){
+		delete texture;
+	}
+
+	void dans_sfml_wrapper_render_texture_draw(sf::RenderTexture* texture, float x, float y){
+		sf::Sprite sprite(texture->getTexture());
+		sprite.setPosition(x, y);
+		gDansSfmlWrapperBoss->target->draw(sprite);
+	}
+
+	sf::RenderTarget* dans_sfml_wrapper_render_texture_as_target(sf::RenderTexture* texture){
+		return texture;
+	}
+
+	void dans_sfml_wrapper_render_texture_display(sf::RenderTexture* texture){
+		texture->display();
+	}
+
+	void dans_sfml_wrapper_target_set(sf::RenderTarget* target){
+		gDansSfmlWrapperBoss->target=target;
+	}
+
+	void dans_sfml_wrapper_target_reset(){
+		gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	}
 }
