@@ -14,6 +14,7 @@ sfml=obvious.load_lib('DansSfmlWrapper', [
 	'built',
 	os.path.join('..', 'built'),
 	HOME,
+	os.path.join(HOME, '..', '..', 'built'),
 ])
 def set_ffi_types(ff, restype=None, *argtypes):
 	conversions={
