@@ -12,6 +12,7 @@ int dansSfmlWrapperBossInit(int width, int height, const char* title){
 	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
 	if(!gDansSfmlWrapperBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
 	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title);
+	gDansSfmlWrapperBoss->window.setFramerateLimit(60);
 	gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	gDansSfmlWrapperBoss->window.setKeyRepeatEnabled(false);
 	gDansSfmlWrapperBoss->va.setPrimitiveType(sf::PrimitiveType::Triangles);
