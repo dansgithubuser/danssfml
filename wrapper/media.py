@@ -49,7 +49,7 @@ set_ffi_types(sfml.dans_sfml_wrapper_capture_finish, None, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vector_text, None, float, float, float, str, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_construct, 'void*', int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_destruct, None, 'void*')
-set_ffi_types(sfml.dans_sfml_wrapper_render_texture_draw, None, 'void*', float, float)
+set_ffi_types(sfml.dans_sfml_wrapper_render_texture_draw, None, 'void*', float, float, float, float)
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_as_target, 'void*', 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_display, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_target_set, None, 'void*')
@@ -185,11 +185,11 @@ class RenderTexture:
 	def __del__(self):
 		sfml.dans_sfml_wrapper_render_texture_destruct(self._)
 
-	def draw(self, x, y):
+	def draw(self, x, y, w, h):
 		if not self.displayed:
 			sfml.dans_sfml_wrapper_render_texture_display(self._)
 			self.displayed=True
-		sfml.dans_sfml_wrapper_render_texture_draw(self._, x, y)
+		sfml.dans_sfml_wrapper_render_texture_draw(self._, x, y, w, h)
 
 	def target(self):
 		self.displayed=False

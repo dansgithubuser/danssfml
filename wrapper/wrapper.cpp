@@ -187,9 +187,11 @@ extern "C" {
 		delete texture;
 	}
 
-	void dans_sfml_wrapper_render_texture_draw(sf::RenderTexture* texture, float x, float y){
+	void dans_sfml_wrapper_render_texture_draw(sf::RenderTexture* texture, float x, float y, float w, float h){
 		sf::Sprite sprite(texture->getTexture());
 		sprite.setPosition(x, y);
+		auto size=sprite.getTexture()->getSize();
+		sprite.setScale(w/size.x, h/size.y);
 		gDansSfmlWrapperBoss->target->draw(sprite);
 	}
 
