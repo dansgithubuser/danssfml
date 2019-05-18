@@ -1,6 +1,8 @@
 #coding: utf-8
 
-import re, types
+import re
+import traceback
+import types
 
 DEBUG=0
 
@@ -115,7 +117,8 @@ class AbstractControls:
 								print('-'*40)
 								print(method.__doc__)
 								print('-'*40)
-								raise
+								traceback.print_exc()
+								self.clear()
 							return
 		f()
 		self.on_input()
