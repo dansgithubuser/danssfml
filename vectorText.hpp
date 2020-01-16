@@ -86,6 +86,6 @@ void vectorText(
 	};
 	for(char c: s){
 		if(m.count(c)) generate(m.at(c));
-		else throw std::logic_error("unimplemented character");
+		else throw std::logic_error(std::string("unimplemented character ")+c);
 	}
 }
