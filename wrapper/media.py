@@ -26,6 +26,7 @@ def set_ffi_types(ff, restype=None, *argtypes):
 	ff.restype=conversions.get(restype, restype)
 	ff.argtypes=[conversions.get(i, i) for i in argtypes]
 set_ffi_types(sfml.dans_sfml_wrapper_init, int, int, int, str)
+set_ffi_types(sfml.dans_sfml_wrapper_close)
 set_ffi_types(sfml.dans_sfml_wrapper_poll_event, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vertices_set_type, None, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vertices_add, None, float, float, int, int, int, int)
@@ -57,6 +58,9 @@ set_ffi_types(sfml.dans_sfml_wrapper_target_set, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_target_reset)
 def init(width=640, height=480, title=''):
 	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
+
+def close():
+	sfml.dans_sfml_wrapper_close()
 
 def set_sfml(new_sfml):
 	global sfml
