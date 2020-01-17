@@ -8,9 +8,11 @@ void vectorText(
 	std::string s,
 	float x, float y, float h,
 	uint8_t r, uint8_t g, uint8_t b, uint8_t a,
-	sf::VertexArray& va
+	sf::VertexArray& va, const sf::RenderWindow& window
 ){
-	auto generate_cx=[&](char c, int a=1, int o=0){
+	const auto viewSize=window.getView().getSize();
+	const auto aspect=viewSize.x/viewSize.y;
+	auto numpad_sketch_x=[&](char c, bool relative=true, int offset=0){
 		std::map<char, int> m={
 			{'1', 0},
 			{'2', 1},
@@ -23,9 +25,9 @@ void vectorText(
 			{'9', 2},
 		};
 		if(!m.count(c)) throw std::logic_error("invalid");
-		return a*x+h*(m.at(c)+o)/4;
+		return (relative?x:0)+h*(m.at(c)+offset)/4*aspect;
 	};
-	auto generate_cy=[&](char c, int a=1, int o=0){
+	auto numpad_sketch_y=[&](char c, bool relative=true, int offset=0){
 		std::map<char, int> m={
 			{'1', 0},
 			{'2', 0},
@@ -38,36 +40,35 @@ void vectorText(
 			{'9', 2},
 		};
 		if(!m.count(c)) throw std::logic_error("invalid");
-		return a*y-h*(m.at(c)+o)/2;
+		return (relative?y:0)-h*(m.at(c)+offset)/2;
 	};
-	auto generate=[&](std::string code){
-		sf::Vertex v, u(
-			sf::Vector2f(generate_cx(code.at(0)), generate_cy(code.at(0))),
+	auto numpad_sketch=[&](std::string code){
+		sf::Vertex v_curr, v_prev(
+			sf::Vector2f(numpad_sketch_x(code.at(0)), numpad_sketch_y(code.at(0))),
 			sf::Color(r, g, b, a)
 		);
 		for(size_t i=1; i<code.size(); ++i){
 			switch(code.at(i)){
 				case 'p':
 					++i;
-					v=sf::Vertex(
+					v_curr=sf::Vertex(
 						sf::Vector2f(
-							u.position.x+(generate_cx(code.at(i), 0, -1))/3,
-							u.position.y-(generate_cy(code.at(i), 0, -1))/3
+							v_prev.position.x+(numpad_sketch_x(code.at(i), false, -1))/3,
+							v_prev.position.y-(numpad_sketch_y(code.at(i), false, -1))/3
 						),
 						sf::Color(r, g, b, a)
 					);
 					break;
 				default:
-					v=sf::Vertex(
-						sf::Vector2f(generate_cx(code.at(i)), generate_cy(code.at(i))),
+					v_curr=sf::Vertex(
+						sf::Vector2f(numpad_sketch_x(code.at(i)), numpad_sketch_y(code.at(i))),
 						sf::Color(r, g, b, a)
 					);
 			}
-			va.append(u);
-			va.append(v);
-			u=v;
+			va.append(v_prev);
+			va.append(v_curr);
+			v_prev=v_curr;
 		}
-		x+=h*3/4;
 	};
 	va.setPrimitiveType(sf::PrimitiveType::Lines);
 	std::map<char, std::string> m={
@@ -85,7 +86,10 @@ void vectorText(
 		{'-', "46"},
 	};
 	for(char c: s){
-		if(m.count(c)) generate(m.at(c));
+		if(m.count(c)){
+			numpad_sketch(m.at(c));
+			x+=h*3/4*aspect;
+		}
 		else throw std::logic_error(std::string("unimplemented character ")+c);
 	}
 }

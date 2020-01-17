@@ -179,7 +179,7 @@ extern "C" {
 			s,
 			x, y, h,
 			r, g, b, a,
-			gDansSfmlWrapperBoss->va
+			gDansSfmlWrapperBoss->va, gDansSfmlWrapperBoss->window
 		);
 	}
 
