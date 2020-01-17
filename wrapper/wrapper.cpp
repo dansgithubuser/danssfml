@@ -66,6 +66,11 @@ extern "C" {
 		return dansSfmlWrapperBossInit(width, height, title);
 	}
 
+	void dans_sfml_wrapper_close(){
+		delete gDansSfmlWrapperBoss;
+		gDansSfmlWrapperBoss=nullptr;
+	}
+
 	const char* dans_sfml_wrapper_poll_event(){ return dansSfmlWrapperBossPollEvent(); }
 
 	void dans_sfml_wrapper_vertices_set_type(const char* s){
@@ -174,7 +179,7 @@ extern "C" {
 			s,
 			x, y, h,
 			r, g, b, a,
-			gDansSfmlWrapperBoss->va
+			gDansSfmlWrapperBoss->va, gDansSfmlWrapperBoss->window
 		);
 	}
 
