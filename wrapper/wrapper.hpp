@@ -41,7 +41,7 @@ extern "C" {
 	void dans_sfml_wrapper_custom_resize(int enable);
 	void dans_sfml_wrapper_capture_start();
 	void dans_sfml_wrapper_capture_finish(const char* fileName);
-	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a);
+	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a, float aspect);
 	sf::RenderTexture* dans_sfml_wrapper_render_texture_construct(int w, int h);
 	void dans_sfml_wrapper_render_texture_destruct(sf::RenderTexture* texture);
 	void dans_sfml_wrapper_render_texture_draw(sf::RenderTexture* texture, float x, float y, float w, float h);

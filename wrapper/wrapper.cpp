@@ -174,12 +174,13 @@ extern "C" {
 		gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	}
 
-	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a){
+	void dans_sfml_wrapper_vector_text(float x, float y, float h, const char* s, int r, int g, int b, int a, float aspect){
 		vectorText(
 			s,
 			x, y, h,
 			r, g, b, a,
-			gDansSfmlWrapperBoss->va, gDansSfmlWrapperBoss->window
+			aspect,
+			gDansSfmlWrapperBoss->va
 		);
 	}
 

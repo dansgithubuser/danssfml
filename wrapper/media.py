@@ -48,7 +48,7 @@ set_ffi_types(sfml.dans_sfml_wrapper_view_set, None, float, float, float, float)
 set_ffi_types(sfml.dans_sfml_wrapper_custom_resize, None, int)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_start, None)
 set_ffi_types(sfml.dans_sfml_wrapper_capture_finish, None, str)
-set_ffi_types(sfml.dans_sfml_wrapper_vector_text, None, float, float, float, str, int, int, int, int)
+set_ffi_types(sfml.dans_sfml_wrapper_vector_text, None, float, float, float, str, int, int, int, int, float)
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_construct, 'void*', int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_destruct, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_draw, None, 'void*', float, float, float, float)
@@ -179,8 +179,9 @@ def vector_text(s, **kwargs):
 	kwargs['w' ]=0
 	xi, yi, xf, yf=_xi_yi(**kwargs)
 	r, g, b, a=_color(**kwargs)
+	aspect=kwargs.get('aspect', 1)
 	vertices_draw()
-	sfml.dans_sfml_wrapper_vector_text(xi, yi, yf-yi, s.encode(), r, g, b, a)
+	sfml.dans_sfml_wrapper_vector_text(xi, yi, yf-yi, s.encode(), r, g, b, a, aspect)
 	vertices_draw()
 
 class RenderTexture:

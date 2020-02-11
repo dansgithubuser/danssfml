@@ -22,9 +22,10 @@ while not done:
     text_y = 40
     text_h = 20
     text_x = 10
-    media.line(x=0,      y=text_y,        w=100, h=0,  color=(128, 0, 0))
-    media.line(x=0,      y=text_y-text_h, w=100, h=0,  color=(0, 0, 128))
-    media.line(x=text_x, y=0,             w=0,   h=60, color=(0, 128, 0))
+    media.line(x=0,      y=text_y,        w=100, h=0,   color=(128, 0, 0))
+    media.line(x=0,      y=text_y-text_h, w=100, h=0,   color=(0, 0, 128))
+    media.line(x=text_x, y=0,             w=0,   h=60,  color=(0, 128, 0))
+    media.line(x=700,    y=500,           w=100, h=100, color=(128, 128, 0))
     line = 0
     media.vector_text(r'''0.123#456$789%!                        ''', x=text_x, y=text_y+text_h*2*line, h=text_h); line+=1
     media.vector_text(r'''abc'def,ghijklmnopqrstuvwxyz           ''', x=text_x, y=text_y+text_h*2*line, h=text_h); line+=1

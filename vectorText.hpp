@@ -122,7 +122,8 @@ void vectorText(
 	std::string s,
 	float x, float y, float h,
 	uint8_t r, uint8_t g, uint8_t b, uint8_t a,
-	sf::VertexArray& va, const sf::RenderWindow& window
+	float aspect,
+	sf::VertexArray& va
 ){
 	const std::map<char, std::vector<float>> glyphs={
 		{' ', {}},
@@ -222,8 +223,6 @@ void vectorText(
 		{'~', {T13I, T24, T33, T42, T53I}},
 	};
 	const std::vector<float> notAGlyph={O, N7I, N3I, N1I, N9I};
-	const auto viewSize=window.getView().getSize();
-	const auto aspect=viewSize.x/viewSize.y;
 	va.setPrimitiveType(sf::PrimitiveType::Lines);
 	for(char c: s){
 		const auto& glyph=glyphs.count(c)?glyphs.at(c):notAGlyph;
