@@ -8,6 +8,11 @@
 #include <sstream>
 #include <stdexcept>
 
+const std::map<std::string, sf::PrimitiveType> fPrimitiveTypes={
+	{"triangles", sf::PrimitiveType::Triangles},
+	{"lines"    , sf::PrimitiveType::Lines},
+};
+
 int dansSfmlWrapperBossInit(int width, int height, const char* title){
 	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
 	if(!gDansSfmlWrapperBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
@@ -74,11 +79,8 @@ extern "C" {
 	const char* dans_sfml_wrapper_poll_event(){ return dansSfmlWrapperBossPollEvent(); }
 
 	void dans_sfml_wrapper_vertices_set_type(const char* s){
-		std::map<std::string, sf::PrimitiveType> m={
-			{"triangles", sf::PrimitiveType::Triangles},
-			{"lines"    , sf::PrimitiveType::Lines},
-		};
-		if(m.count(s)) gDansSfmlWrapperBoss->va.setPrimitiveType(m.at(s));
+		if(fPrimitiveTypes.count(s))
+			gDansSfmlWrapperBoss->va.setPrimitiveType(fPrimitiveTypes.at(s));
 	}
 
 	void dans_sfml_wrapper_vertices_add(float x, float y, int r, int g, int b, int a){
@@ -101,6 +103,11 @@ extern "C" {
 
 	void dans_sfml_wrapper_vertex_buffer_destruct(sf::VertexBuffer* buffer){
 		delete buffer;
+	}
+
+	void dans_sfml_wrapper_vertex_buffer_set_type(sf::VertexBuffer* buffer, const char* type){
+		if(fPrimitiveTypes.count(type))
+			buffer->setPrimitiveType(fPrimitiveTypes.at(type));
 	}
 
 	void dans_sfml_wrapper_vertex_buffer_update(sf::VertexBuffer* buffer, int i, float x, float y, int r, int g, int b, int a){

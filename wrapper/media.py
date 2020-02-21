@@ -33,6 +33,7 @@ set_ffi_types(sfml.dans_sfml_wrapper_vertices_add, None, float, float, int, int,
 set_ffi_types(sfml.dans_sfml_wrapper_vertices_draw)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_construct, 'void*', int)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_destruct, None, 'void*')
+set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_set_type, None, 'void*', str)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_update, None, 'void*', int, float, float, int, int, int, int)
 set_ffi_types(sfml.dans_sfml_wrapper_vertex_buffer_draw, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_text_draw, None, float, float, int, str, int, int, int, int)
@@ -164,6 +165,9 @@ class VertexBuffer:
 
 	def __del__(self):
 		sfml.dans_sfml_wrapper_vertex_buffer_destruct(self.this)
+
+	def set_type(self, type):
+		sfml.dans_sfml_wrapper_vertex_buffer_set_type(self.this, type.encode())
 
 	def update(self, i, x, y, r, g, b, a):
 		sfml.dans_sfml_wrapper_vertex_buffer_update(self.this, i, x, y, r, g, b, a)
