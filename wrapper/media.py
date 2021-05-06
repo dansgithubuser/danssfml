@@ -18,6 +18,7 @@ sfml=obvious.load_lib('DansSfmlWrapper', [
 ])
 def set_ffi_types(ff, restype=None, *argtypes):
 	conversions={
+		bool: ctypes.c_bool,
 		int: ctypes.c_int,
 		float: ctypes.c_float,
 		str: ctypes.c_char_p,
@@ -25,7 +26,7 @@ def set_ffi_types(ff, restype=None, *argtypes):
 	}
 	ff.restype=conversions.get(restype, restype)
 	ff.argtypes=[conversions.get(i, i) for i in argtypes]
-set_ffi_types(sfml.dans_sfml_wrapper_init, int, int, int, str)
+set_ffi_types(sfml.dans_sfml_wrapper_init, int, int, int, str, bool)
 set_ffi_types(sfml.dans_sfml_wrapper_close)
 set_ffi_types(sfml.dans_sfml_wrapper_poll_event, str)
 set_ffi_types(sfml.dans_sfml_wrapper_vertices_set_type, None, str)
@@ -57,8 +58,9 @@ set_ffi_types(sfml.dans_sfml_wrapper_render_texture_as_target, 'void*', 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_render_texture_display, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_target_set, None, 'void*')
 set_ffi_types(sfml.dans_sfml_wrapper_target_reset)
-def init(width=640, height=480, title=''):
-	assert sfml.dans_sfml_wrapper_init(width, height, title.encode())==0
+
+def init(width=640, height=480, title='', fullscreen=False):
+	assert sfml.dans_sfml_wrapper_init(width, height, title.encode(), fullscreen)==0
 
 def close():
 	sfml.dans_sfml_wrapper_close()

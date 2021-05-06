@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='danssfmlpy',
-	version='1.6.0',
+	version='1.7.0',
 	description='SFML wrapper for Python',
 	long_description='SFML wrapper for Python',
 	url='http://github.com/dansgithubuser/danssfml',

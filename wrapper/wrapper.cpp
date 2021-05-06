@@ -13,10 +13,10 @@ const std::map<std::string, sf::PrimitiveType> fPrimitiveTypes={
 	{"lines"    , sf::PrimitiveType::Lines},
 };
 
-int dansSfmlWrapperBossInit(int width, int height, const char* title){
+int dansSfmlWrapperBossInit(int width, int height, const char* title, bool fullscreen){
 	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
 	if(!gDansSfmlWrapperBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
-	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title);
+	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title, fullscreen ? sf::Style::Fullscreen : 0);
 	gDansSfmlWrapperBoss->window.setFramerateLimit(60);
 	gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	gDansSfmlWrapperBoss->window.setKeyRepeatEnabled(false);
@@ -66,9 +66,9 @@ const char* dansSfmlWrapperBossPollEvent(){
 DansSfmlWrapperBoss* gDansSfmlWrapperBoss=nullptr;
 
 extern "C" {
-	int dans_sfml_wrapper_init(int width, int height, const char* title){
+	int dans_sfml_wrapper_init(int width, int height, const char* title, bool fullscreen){
 		if(gDansSfmlWrapperBoss) delete gDansSfmlWrapperBoss;
-		return dansSfmlWrapperBossInit(width, height, title);
+		return dansSfmlWrapperBossInit(width, height, title, fullscreen);
 	}
 
 	void dans_sfml_wrapper_close(){

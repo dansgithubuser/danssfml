@@ -18,7 +18,7 @@ struct DansSfmlWrapperBoss{
 extern DansSfmlWrapperBoss* gDansSfmlWrapperBoss;
 
 extern "C" {
-	int dans_sfml_wrapper_init(int width, int height, const char* title);
+	int dans_sfml_wrapper_init(int width, int height, const char* title, bool fullscreen);
 	void dans_sfml_wrapper_close();
 	const char* dans_sfml_wrapper_poll_event();
 	void dans_sfml_wrapper_vertices_set_type(const char* s);
