@@ -16,7 +16,7 @@ const std::map<std::string, sf::PrimitiveType> fPrimitiveTypes={
 int dansSfmlWrapperBossInit(int width, int height, const char* title, bool fullscreen){
 	gDansSfmlWrapperBoss=new DansSfmlWrapperBoss;
 	if(!gDansSfmlWrapperBoss->font.loadFromMemory(courierCode, courierCodeSize)) return 1;
-	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title, fullscreen ? sf::Style::Fullscreen : 0);
+	gDansSfmlWrapperBoss->window.create(sf::VideoMode(width, height), title, fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
 	gDansSfmlWrapperBoss->window.setFramerateLimit(60);
 	gDansSfmlWrapperBoss->target=&gDansSfmlWrapperBoss->window;
 	gDansSfmlWrapperBoss->window.setKeyRepeatEnabled(false);
