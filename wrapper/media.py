@@ -164,6 +164,7 @@ def clear(**kwargs):
 class VertexBuffer:
 	def __init__(self, count):
 		self.this=sfml.dans_sfml_wrapper_vertex_buffer_construct(count)
+		self.i=0
 
 	def __del__(self):
 		sfml.dans_sfml_wrapper_vertex_buffer_destruct(self.this)
@@ -174,21 +175,26 @@ class VertexBuffer:
 	def update(self, i, x, y, r, g, b, a):
 		sfml.dans_sfml_wrapper_vertex_buffer_update(self.this, i, x, y, r, g, b, a)
 
-	def line(self, i, **kwargs):
-		xi, yi, xf, yf=_xi_yi(**kwargs)
+	def point(self, x, y, **kwargs):
 		r, g, b, a=_color(**kwargs)
-		self.update(i+0, xi, yi, r, g, b, a)
-		self.update(i+1, xf, yf, r, g, b, a)
+		self.update(self.i, x, y, r, g, b, a)
+		self.i+=1
 
-	def fill(self, i, **kwargs):
+	def line(self, **kwargs):
 		xi, yi, xf, yf=_xi_yi(**kwargs)
 		r, g, b, a=_color(**kwargs)
-		self.update(i+0, xi, yi, r, g, b, a)
-		self.update(i+1, xf, yi, r, g, b, a)
-		self.update(i+2, xi, yf, r, g, b, a)
-		self.update(i+3, xi, yf, r, g, b, a)
-		self.update(i+4, xf, yi, r, g, b, a)
-		self.update(i+5, xf, yf, r, g, b, a)
+		self.point(xi, yi, r, g, b, a)
+		self.point(xf, yf, r, g, b, a)
+
+	def fill(self, **kwargs):
+		xi, yi, xf, yf=_xi_yi(**kwargs)
+		r, g, b, a=_color(**kwargs)
+		self.point(xi, yi, r, g, b, a)
+		self.point(xf, yi, r, g, b, a)
+		self.point(xi, yf, r, g, b, a)
+		self.point(xi, yf, r, g, b, a)
+		self.point(xf, yi, r, g, b, a)
+		self.point(xf, yf, r, g, b, a)
 
 	def draw(self):
 		sfml.dans_sfml_wrapper_vertex_buffer_draw(self.this)
