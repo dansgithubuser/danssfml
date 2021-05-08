@@ -183,18 +183,18 @@ class VertexBuffer:
 	def line(self, **kwargs):
 		xi, yi, xf, yf=_xi_yi(**kwargs)
 		r, g, b, a=_color(**kwargs)
-		self.point(xi, yi, r, g, b, a)
-		self.point(xf, yf, r, g, b, a)
+		self.point(xi, yi, r=r, g=g, b=b, a=a)
+		self.point(xf, yf, r=r, g=g, b=b, a=a)
 
 	def fill(self, **kwargs):
 		xi, yi, xf, yf=_xi_yi(**kwargs)
 		r, g, b, a=_color(**kwargs)
-		self.point(xi, yi, r, g, b, a)
-		self.point(xf, yi, r, g, b, a)
-		self.point(xi, yf, r, g, b, a)
-		self.point(xi, yf, r, g, b, a)
-		self.point(xf, yi, r, g, b, a)
-		self.point(xf, yf, r, g, b, a)
+		self.point(xi, yi, r=r, g=g, b=b, a=a)
+		self.point(xf, yi, r=r, g=g, b=b, a=a)
+		self.point(xi, yf, r=r, g=g, b=b, a=a)
+		self.point(xi, yf, r=r, g=g, b=b, a=a)
+		self.point(xf, yi, r=r, g=g, b=b, a=a)
+		self.point(xf, yf, r=r, g=g, b=b, a=a)
 
 	def draw(self):
 		sfml.dans_sfml_wrapper_vertex_buffer_draw(self.this)
