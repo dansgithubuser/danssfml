@@ -23,6 +23,7 @@ copy_into(os.path.join('..', 'controls.py'))
 copy_into(glob.glob(os.path.join('built', '*DansSfmlWrapper.*'))[0])
 
 if os.environ.get('DEPLOY'):
+	shutil.rmtree('dist', ignore_errors=True)
 	invoke('python3', 'setup.py', 'bdist_wheel', '--plat-name', {
 		'linux': 'manylinux1_x86_64',
 		'darwin': 'macosx_10_6_intel',
