@@ -127,6 +127,7 @@ void vectorText(
 ){
 	const std::map<char, std::vector<float>> glyphs={
 		{' ', {}},
+		{'\n', {}},
 		{'!', {N8I, L2I, DOT}},
 		{'"', {T25I, T24I, T45I, T44I}},
 		{'#', {T25I, T21I, T45I, T41I, T14I, T54I, T12I, T52I}},
@@ -224,6 +225,7 @@ void vectorText(
 	};
 	const std::vector<float> notAGlyph={O, N7I, N3I, N1I, N9I};
 	va.setPrimitiveType(sf::PrimitiveType::Lines);
+	float x_i = x;
 	for(char c: s){
 		const auto& glyph=glyphs.count(c)?glyphs.at(c):notAGlyph;
 		for(size_t i=0; i<glyph.size(); i+=2) va.append(sf::Vertex(
@@ -234,5 +236,9 @@ void vectorText(
 			sf::Color(r, g, b, a)
 		));
 		x+=h*3/4*aspect;
+		if (c == '\n') {
+			x=x_i;
+			y+=h*2;
+		}
 	}
 }
